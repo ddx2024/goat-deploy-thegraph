@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create-local": "graph create --node http://localhost:8020/ Bridge",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 Bridge"
+    "create-local": "graph create --node http://goat-regtest-graph-node:8020/ Bridge",
+    "deploy-local": "graph deploy --node http://goat-regtest-graph-node:8020/ --ipfs http://goat-regtest-graph-node:5001 Bridge --version-label v0.0.1"
   },
   "author": "",
   "license": "ISC",
