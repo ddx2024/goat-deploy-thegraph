@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-local": "graph create --node http://localhost:8020/ Bridge",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 Bridge"
   },
   "author": "",
   "license": "ISC",
