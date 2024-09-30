@@ -1,0 +1,8 @@
+uni_modules
+uni_modules/*
+.vite
+.vite/*
+.hbuilderx
+.hbuilderx/*
+.idea
+node_modules

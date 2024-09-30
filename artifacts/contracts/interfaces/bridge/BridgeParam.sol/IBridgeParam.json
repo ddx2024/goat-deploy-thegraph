@@ -1,0 +1,121 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IBridgeParam",
+  "sourceName": "contracts/interfaces/bridge/BridgeParam.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "MalformedTax",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "TaxTooHigh",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "rate",
+          "type": "uint16"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint64",
+          "name": "max",
+          "type": "uint64"
+        }
+      ],
+      "name": "DepositTaxUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "name": "RateLimitUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "rate",
+          "type": "uint16"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint64",
+          "name": "max",
+          "type": "uint64"
+        }
+      ],
+      "name": "WithdrawalTaxUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
+          "name": "bp",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint64",
+          "name": "max",
+          "type": "uint64"
+        }
+      ],
+      "name": "setDepositTax",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
+          "name": "sec",
+          "type": "uint16"
+        }
+      ],
+      "name": "setRateLimit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
+          "name": "bp",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint64",
+          "name": "max",
+          "type": "uint64"
+        }
+      ],
+      "name": "setWithdrawalTax",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
