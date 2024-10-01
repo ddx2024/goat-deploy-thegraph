@@ -8,4 +8,4 @@ RUN npm ci
 
 COPY . .
 
-CMD ["sh", "-c", "npm run create-local && npm run deploy-local"]
+CMD ["sh", "-c", "sleep 10 && npm run create-local && npm run deploy-local"]
