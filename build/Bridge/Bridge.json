@@ -75,7 +75,17 @@
   },
   {
     "inputs": [],
+    "name": "RequestTooFrequent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "TaxTooHigh",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TooManyRequest",
     "type": "error"
   },
   {
@@ -164,6 +174,19 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
+    "name": "MinWithdrawalUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "previousOwner",
@@ -221,9 +244,9 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "maxTxPrice",
-        "type": "uint256"
+        "type": "uint16"
       }
     ],
     "name": "RBF",
@@ -284,9 +307,9 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "maxTxPrice",
-        "type": "uint256"
+        "type": "uint16"
       },
       {
         "indexed": false,
@@ -318,10 +341,23 @@
     "type": "event"
   },
   {
+    "inputs": [],
+    "name": "REQUEST_PER_BLOCK",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_wid",
+        "name": "wid",
         "type": "uint256"
       }
     ],
@@ -334,7 +370,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_wid",
+        "name": "wid",
         "type": "uint256"
       }
     ],
@@ -347,22 +383,22 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "_txid",
+        "name": "txid",
         "type": "bytes32"
       },
       {
         "internalType": "uint32",
-        "name": "_txout",
+        "name": "txout",
         "type": "uint32"
       },
       {
         "internalType": "address",
-        "name": "_target",
+        "name": "target",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "_amount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -381,12 +417,12 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "_txid",
+        "name": "txid",
         "type": "bytes32"
       },
       {
         "internalType": "uint32",
-        "name": "_txout",
+        "name": "txout",
         "type": "uint32"
       }
     ],
@@ -418,22 +454,22 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_wid",
+        "name": "wid",
         "type": "uint256"
       },
       {
         "internalType": "bytes32",
-        "name": "_txid",
+        "name": "txid",
         "type": "bytes32"
       },
       {
         "internalType": "uint32",
-        "name": "_txout",
+        "name": "txout",
         "type": "uint32"
       },
       {
         "internalType": "uint256",
-        "name": "_received",
+        "name": "received",
         "type": "uint256"
       }
     ],
@@ -446,11 +482,6 @@
     "inputs": [],
     "name": "param",
     "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "rateLimit",
-        "type": "uint16"
-      },
       {
         "internalType": "uint16",
         "name": "depositTaxBP",
@@ -472,13 +503,8 @@
         "type": "uint64"
       },
       {
-        "internalType": "uint16",
-        "name": "_res1",
-        "type": "uint16"
-      },
-      {
         "internalType": "uint64",
-        "name": "_res2",
+        "name": "minWithdrawal",
         "type": "uint64"
       }
     ],
@@ -489,36 +515,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "receipts",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "txid",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint32",
-        "name": "txout",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "received",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_wid",
+        "name": "wid",
         "type": "uint256"
       }
     ],
@@ -538,12 +535,12 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_wid",
+        "name": "wid",
         "type": "uint256"
       },
       {
         "internalType": "uint16",
-        "name": "_maxTxPrice",
+        "name": "maxTxPrice",
         "type": "uint16"
       }
     ],
@@ -556,12 +553,12 @@
     "inputs": [
       {
         "internalType": "uint16",
-        "name": "_bp",
+        "name": "bp",
         "type": "uint16"
       },
       {
         "internalType": "uint64",
-        "name": "_max",
+        "name": "max",
         "type": "uint64"
       }
     ],
@@ -573,12 +570,12 @@
   {
     "inputs": [
       {
-        "internalType": "uint16",
-        "name": "_sec",
-        "type": "uint16"
+        "internalType": "uint64",
+        "name": "amount",
+        "type": "uint64"
       }
     ],
-    "name": "setRateLimit",
+    "name": "setMinWithdrawal",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -587,12 +584,12 @@
     "inputs": [
       {
         "internalType": "uint16",
-        "name": "_bp",
+        "name": "bp",
         "type": "uint16"
       },
       {
         "internalType": "uint64",
-        "name": "_max",
+        "name": "max",
         "type": "uint64"
       }
     ],
@@ -637,12 +634,12 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "_receiver",
+        "name": "receiver",
         "type": "string"
       },
       {
         "internalType": "uint16",
-        "name": "_maxTxPrice",
+        "name": "maxTxPrice",
         "type": "uint16"
       }
     ],
@@ -667,6 +664,16 @@
         "type": "address"
       },
       {
+        "internalType": "uint16",
+        "name": "maxTxPrice",
+        "type": "uint16"
+      },
+      {
+        "internalType": "enum IBridge.WithdrawalStatus",
+        "name": "status",
+        "type": "uint8"
+      },
+      {
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
@@ -678,23 +685,8 @@
       },
       {
         "internalType": "uint256",
-        "name": "maxTxPrice",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "updatedAt",
         "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "receiver",
-        "type": "string"
-      },
-      {
-        "internalType": "enum IBridge.WithdrawalStatus",
-        "name": "status",
-        "type": "uint8"
       }
     ],
     "stateMutability": "view",

@@ -8,9 +8,9 @@
       "inputs": [
         {
           "indexed": true,
-          "internalType": "bytes20",
+          "internalType": "address",
           "name": "voter",
-          "type": "bytes20"
+          "type": "address"
         },
         {
           "indexed": false,
@@ -27,9 +27,9 @@
       "inputs": [
         {
           "indexed": true,
-          "internalType": "bytes20",
+          "internalType": "address",
           "name": "voter",
-          "type": "bytes20"
+          "type": "address"
         }
       ],
       "name": "RemovedVoter",
@@ -38,9 +38,9 @@
     {
       "inputs": [
         {
-          "internalType": "bytes20",
+          "internalType": "address",
           "name": "voter",
-          "type": "bytes20"
+          "type": "address"
         },
         {
           "internalType": "bytes32",
@@ -56,9 +56,9 @@
     {
       "inputs": [
         {
-          "internalType": "bytes20",
+          "internalType": "address",
           "name": "voter",
-          "type": "bytes20"
+          "type": "address"
         }
       ],
       "name": "removeVoter",

@@ -9,11 +9,6 @@
       "type": "error"
     },
     {
-      "inputs": [],
-      "name": "RateLimitExceeded",
-      "type": "error"
-    },
-    {
       "anonymous": false,
       "inputs": [
         {
@@ -118,9 +113,9 @@
         },
         {
           "indexed": false,
-          "internalType": "uint256",
+          "internalType": "uint16",
           "name": "maxTxPrice",
-          "type": "uint256"
+          "type": "uint16"
         }
       ],
       "name": "RBF",
@@ -168,9 +163,9 @@
         },
         {
           "indexed": false,
-          "internalType": "uint256",
+          "internalType": "uint16",
           "name": "maxTxPrice",
-          "type": "uint256"
+          "type": "uint16"
         },
         {
           "indexed": false,

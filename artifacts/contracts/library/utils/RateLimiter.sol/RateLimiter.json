@@ -1,0 +1,55 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "RateLimiter",
+  "sourceName": "contracts/library/utils/RateLimiter.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "checkSender",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "RateLimitExceeded",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "RequestTooFrequent",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "TooManyRequest",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "REQUEST_PER_BLOCK",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60c0604052348015600e575f5ffd5b506040516100f43803806100f4833981016040819052602b91603a565b608091909152151560a052606a565b5f5f60408385031215604a575f5ffd5b8251915060208301518015158114605f575f5ffd5b809150509250929050565b60805160a051606f6100855f395f50505f602e0152606f5ff3fe6080604052348015600e575f5ffd5b50600436106026575f3560e01c80633396c80914602a575b5f5ffd5b60507f000000000000000000000000000000000000000000000000000000000000000081565b60405190815260200160405180910390f3fea164736f6c634300081b000a",
+  "deployedBytecode": "0x6080604052348015600e575f5ffd5b50600436106026575f3560e01c80633396c80914602a575b5f5ffd5b60507f000000000000000000000000000000000000000000000000000000000000000081565b60405190815260200160405180910390f3fea164736f6c634300081b000a",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

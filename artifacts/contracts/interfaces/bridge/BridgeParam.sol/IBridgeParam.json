@@ -37,6 +37,19 @@
       "inputs": [
         {
           "indexed": false,
+          "internalType": "uint64",
+          "name": "",
+          "type": "uint64"
+        }
+      ],
+      "name": "MinWithdrawalUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
           "internalType": "uint16",
           "name": "",
           "type": "uint16"
@@ -85,12 +98,12 @@
     {
       "inputs": [
         {
-          "internalType": "uint16",
-          "name": "sec",
-          "type": "uint16"
+          "internalType": "uint64",
+          "name": "amount",
+          "type": "uint64"
         }
       ],
-      "name": "setRateLimit",
+      "name": "setMinWithdrawal",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
