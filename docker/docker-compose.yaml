@@ -17,7 +17,7 @@ services:
       postgres_pass: let-me-in
       postgres_db: graph-node
       ipfs: 'ipfs:5001'
-      ethereum: 'localhost:http://34.209.142.125:8545'
+      ethereum: 'localhost:http://ip-10-1-103-28.us-west-2.compute.internal:8545'
       GRAPH_LOG: debug
   ipfs:
     image: ipfs/go-ipfs:v0.4.23
