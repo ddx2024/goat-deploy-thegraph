@@ -115,19 +115,16 @@ export function handleWithdrawal(event: Withdraw): void {
 
 export function handlePaid(event: Paid): void {
   const transactionHash = event.transaction.hash.toHex();
-
   log.info('Handling Paid event for transaction {}', [transactionHash]);
-
+  const btcTxid = Bytes.fromUint8Array(event.params.txid.reverse());
   const paidTxn = new PaidTxn(transactionHash);
   paidTxn.withdrawId = event.params.id;
-  paidTxn.btcTxid = event.params.txid;
+  paidTxn.btcTxid = btcTxid;
   paidTxn.btcTxout = event.params.txout.toI32();
   paidTxn.value = event.params.value;
   paidTxn.status = "Paid";
   paidTxn.save();
-
   const id = event.params.id.toString();
-  const btcTxid = event.params.txid;
   loadAndUpdateBridgeTxn(id, "Paid", btcTxid);
 }
 
