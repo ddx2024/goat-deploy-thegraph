@@ -47,22 +47,80 @@ function loadAndUpdateBridgeTxn(id: string, newStatus: string, newBtcTxid: Bytes
   ]);
 }
 
+function updateCancelingTxId(id: string, cancelingTxId: string): void {
+  const index = BridgeTxnWidIndex.load(id);
+  if (!index) {
+    log.warning(`BridgeTxnWidIndex not found for ID: {}`, [id]);
+    return;
+  }
+  const bridgeTxn = BridgeTxn.load(index.bridgeTxnId);
+  if (!bridgeTxn) {
+    log.warning(`BridgeTxn not found for ID: {}`, [id]);
+    return;
+  }
+  if (cancelingTxId !== null) {
+    bridgeTxn.cancelingTxId = cancelingTxId;
+  }
+  bridgeTxn.save();
+}
+
+function updateCanceledTxId(id: string, canceledTxId: string): void {
+  const index = BridgeTxnWidIndex.load(id);
+  if (!index) {
+    log.warning(`BridgeTxnWidIndex not found for ID: {}`, [id]);
+    return;
+  }
+  const bridgeTxn = BridgeTxn.load(index.bridgeTxnId);
+  if (!bridgeTxn) {
+    log.warning(`BridgeTxn not found for ID: {}`, [id]);
+    return;
+  }
+  if (canceledTxId !== null) {
+    bridgeTxn.canceledTxId = canceledTxId;
+  }
+  bridgeTxn.save();
+}
+
+
+function updateRefundTxId(id: string, refundTxId: string): void {
+  const index = BridgeTxnWidIndex.load(id);
+  if (!index) {
+    log.warning(`BridgeTxnWidIndex not found for ID: {}`, [id]);
+    return;
+  }
+  const bridgeTxn = BridgeTxn.load(index.bridgeTxnId);
+  if (!bridgeTxn) {
+    log.warning(`BridgeTxn not found for ID: {}`, [id]);
+    return;
+  }
+  if (refundTxId !== null) {
+    bridgeTxn.refundTxId = refundTxId;
+  }
+  bridgeTxn.save();
+}
+
 export function handleCanceling(event: Canceling): void {
   const id = event.params.id.toString();
+  const txId = event.transaction.hash.toHex();
   log.info('Handling Canceling event for ID {}', [id]);
   loadAndUpdateBridgeTxn(id, "Canceling");
+  updateCancelingTxId(id, txId);
 }
 
 export function handleCanceled(event: Canceled): void {
   const id = event.params.id.toString();
+  const txId = event.transaction.hash.toHex();
   log.info('Handling Canceled event for ID {}', [id]);
   loadAndUpdateBridgeTxn(id, "Canceled");
+  updateCanceledTxId(id, txId);
 }
 
 export function handleRefund(event: Refund): void {
   const id = event.params.id.toString();
+  const txId = event.transaction.hash.toHex();
   log.info('Handling Refund event for ID {}', [id]);
   loadAndUpdateBridgeTxn(id, "Refunded");
+  updateRefundTxId(id, txId);
 }
 
 export function handleRBF(event: RBF): void {

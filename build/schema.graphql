@@ -11,6 +11,9 @@ type BridgeTxn @entity {
   maxTxPrice: BigInt!
   receiver: String!
   status: String!
+  cancelingTxId: String
+  canceledTxId: String
+  refundTxId: String
 }
 
 type PaidTxn @entity {

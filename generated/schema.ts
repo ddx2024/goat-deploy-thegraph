@@ -196,6 +196,57 @@ export class BridgeTxn extends Entity {
   set status(value: string) {
     this.set("status", Value.fromString(value));
   }
+
+  get cancelingTxId(): string | null {
+    let value = this.get("cancelingTxId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set cancelingTxId(value: string | null) {
+    if (!value) {
+      this.unset("cancelingTxId");
+    } else {
+      this.set("cancelingTxId", Value.fromString(<string>value));
+    }
+  }
+
+  get canceledTxId(): string | null {
+    let value = this.get("canceledTxId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set canceledTxId(value: string | null) {
+    if (!value) {
+      this.unset("canceledTxId");
+    } else {
+      this.set("canceledTxId", Value.fromString(<string>value));
+    }
+  }
+
+  get refundTxId(): string | null {
+    let value = this.get("refundTxId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set refundTxId(value: string | null) {
+    if (!value) {
+      this.unset("refundTxId");
+    } else {
+      this.set("refundTxId", Value.fromString(<string>value));
+    }
+  }
 }
 
 export class PaidTxn extends Entity {
