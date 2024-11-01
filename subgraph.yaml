@@ -2,7 +2,7 @@ specVersion: 0.0.4
 description: Thegraph node for GOAT
 repository: https://github.com/GOATNetwork/goat-contracts
 schema:
-  file: schema.graphql
+  file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Bridge
