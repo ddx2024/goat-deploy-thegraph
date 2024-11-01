@@ -102,7 +102,7 @@ function updateRefundTxId(id: string, refundTxId: string): void {
 export function handleCanceling(event: Canceling): void {
   const id = event.params.id.toString();
   const txId = event.transaction.hash.toHex();
-  log.info('Handling Canceling event for ID {}', [id]);
+  log.info('Handling Canceling event for ID {}, txId {}', [id, txId]);
   loadAndUpdateBridgeTxn(id, "Canceling");
   updateCancelingTxId(id, txId);
 }
