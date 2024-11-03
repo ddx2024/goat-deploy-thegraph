@@ -2,7 +2,7 @@ specVersion: 0.0.4
 description: Thegraph node for GOAT
 repository: https://github.com/GOATNetwork/goat-contracts
 schema:
-  file: schema.graphql
+  file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Bridge
@@ -19,7 +19,7 @@ dataSources:
         - Bridge
       abis:
         - name: Bridge
-          file: Bridge/Bridge.json
+          file: artifacts/contracts/bridge/Bridge.sol/Bridge.json
       eventHandlers:
         - event: Deposit(indexed address,indexed uint256,bytes32,uint32,uint256)
           handler: handleDeposit
@@ -35,7 +35,8 @@ dataSources:
           handler: handleRefund
         - event: RBF(indexed uint256,uint16)
           handler: handleRBF
-      file: Bridge/Bridge.wasm
+      file: ./scripts/mapping.ts
+
   - kind: ethereum/contract
     name: Locking
     network: localhost
@@ -56,7 +57,7 @@ dataSources:
         - LockingStats
       abis:
         - name: Locking
-          file: Locking/Locking.json
+          file: artifacts/contracts/locking/Locking.sol/Locking.json
       eventHandlers:
         - event: UpdateTokenThreshold(address,uint256)
           handler: handleUpdateTokenThreshold
@@ -82,4 +83,4 @@ dataSources:
           handler: handleDistributeReward
         - event: ChangeValidatorOwner(address,address)
           handler: handleChangeValidatorOwner
-      file: Bridge/Bridge.wasm
+      file: ./scripts/mapping.ts
