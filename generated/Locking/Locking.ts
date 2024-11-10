@@ -10,6 +10,24 @@ import {
   BigInt,
 } from "@graphprotocol/graph-ts";
 
+export class Approval extends ethereum.Event {
+  get params(): Approval__Params {
+    return new Approval__Params(this);
+  }
+}
+
+export class Approval__Params {
+  _event: Approval;
+
+  constructor(event: Approval) {
+    this._event = event;
+  }
+
+  get validator(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
 export class ChangeValidatorOwner extends ethereum.Event {
   get params(): ChangeValidatorOwner__Params {
     return new ChangeValidatorOwner__Params(this);
@@ -176,16 +194,16 @@ export class Lock__Params {
   }
 }
 
-export class OpenCliam extends ethereum.Event {
-  get params(): OpenCliam__Params {
-    return new OpenCliam__Params(this);
+export class OpenClaim extends ethereum.Event {
+  get params(): OpenClaim__Params {
+    return new OpenClaim__Params(this);
   }
 }
 
-export class OpenCliam__Params {
-  _event: OpenCliam;
+export class OpenClaim__Params {
+  _event: OpenClaim;
 
-  constructor(event: OpenCliam) {
+  constructor(event: OpenClaim) {
     this._event = event;
   }
 }
@@ -446,6 +464,25 @@ export class Locking extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  approvals(validator: Address): boolean {
+    let result = super.call("approvals", "approvals(address):(bool)", [
+      ethereum.Value.fromAddress(validator),
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_approvals(validator: Address): ethereum.CallResult<boolean> {
+    let result = super.tryCall("approvals", "approvals(address):(bool)", [
+      ethereum.Value.fromAddress(validator),
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   claimable(): boolean {
@@ -764,6 +801,36 @@ export class AddTokenCall__Outputs {
   _call: AddTokenCall;
 
   constructor(call: AddTokenCall) {
+    this._call = call;
+  }
+}
+
+export class ApproveCall extends ethereum.Call {
+  get inputs(): ApproveCall__Inputs {
+    return new ApproveCall__Inputs(this);
+  }
+
+  get outputs(): ApproveCall__Outputs {
+    return new ApproveCall__Outputs(this);
+  }
+}
+
+export class ApproveCall__Inputs {
+  _call: ApproveCall;
+
+  constructor(call: ApproveCall) {
+    this._call = call;
+  }
+
+  get validator(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class ApproveCall__Outputs {
+  _call: ApproveCall;
+
+  constructor(call: ApproveCall) {
     this._call = call;
   }
 }

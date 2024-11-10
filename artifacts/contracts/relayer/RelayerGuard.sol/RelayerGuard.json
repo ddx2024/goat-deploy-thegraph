@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "BaseAccess",
-  "sourceName": "contracts/library/utils/BaseAccess.sol",
+  "contractName": "RelayerGuard",
+  "sourceName": "contracts/relayer/RelayerGuard.sol",
   "abi": [
     {
       "inputs": [],

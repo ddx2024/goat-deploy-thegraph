@@ -6,7 +6,7 @@ import {
   UpdateTokenWeight,
   UpdateTokenLimit,
   Grant,
-  OpenCliam,
+  OpenClaim,
   Create,
   Lock,
   Unlock,
@@ -137,7 +137,7 @@ export function handleDeposit(event: Deposit): void {
   entity.timestamp = event.block.timestamp;
   entity.target = event.params.target;
   entity.amount = event.params.amount;
-  entity.btcTxid = Bytes.fromUint8Array(event.params.txid.reverse());
+  entity.btcTxid = Bytes.fromUint8Array(event.params.txHash.reverse());
   entity.btcTxout = event.params.txout.toI32();
   entity.tax = event.params.tax;
   entity.withdrawId = null;
@@ -174,7 +174,7 @@ export function handleWithdrawal(event: Withdraw): void {
 export function handlePaid(event: Paid): void {
   const transactionHash = event.transaction.hash.toHex();
   log.info('Handling Paid event for transaction {}', [transactionHash]);
-  const btcTxid = Bytes.fromUint8Array(event.params.txid.reverse());
+  const btcTxid = Bytes.fromUint8Array(event.params.txHash.reverse());
   const paidTxn = new PaidTxn(transactionHash);
   paidTxn.withdrawId = event.params.id;
   paidTxn.btcTxid = btcTxid;
@@ -253,7 +253,7 @@ export function handleGrant(event: Grant): void {
   log.info('LockingStatsEntity updated. New totalReward: {}, remainReward: {}', [stats.totalReward.toString(), stats.remainReward.toString()])
 }
 
-export function handleOpenCliam(event: OpenCliam): void {
+export function handleOpenCliam(event: OpenClaim): void {
   log.info('Handling OpenClaim event', [])
   let stats = LockingStatsEntity.load("1")
   if (!stats) {

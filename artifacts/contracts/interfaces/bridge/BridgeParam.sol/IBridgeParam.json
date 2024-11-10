@@ -5,13 +5,26 @@
   "abi": [
     {
       "inputs": [],
-      "name": "MalformedTax",
+      "name": "InvalidTax",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "TaxTooHigh",
+      "name": "InvalidThreshold",
       "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "name": "ConfirmationNumberUpdated",
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -42,7 +55,7 @@
           "type": "uint64"
         }
       ],
-      "name": "MinWithdrawalUpdated",
+      "name": "MinDepositUpdated",
       "type": "event"
     },
     {
@@ -50,12 +63,12 @@
       "inputs": [
         {
           "indexed": false,
-          "internalType": "uint16",
+          "internalType": "uint64",
           "name": "",
-          "type": "uint16"
+          "type": "uint64"
         }
       ],
-      "name": "RateLimitUpdated",
+      "name": "MinWithdrawalUpdated",
       "type": "event"
     },
     {
@@ -81,6 +94,19 @@
       "inputs": [
         {
           "internalType": "uint16",
+          "name": "number",
+          "type": "uint16"
+        }
+      ],
+      "name": "setConfirmationNumber",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
           "name": "bp",
           "type": "uint16"
         },
@@ -91,6 +117,19 @@
         }
       ],
       "name": "setDepositTax",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "amount",
+          "type": "uint64"
+        }
+      ],
+      "name": "setMinDeposit",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

@@ -44,15 +44,9 @@
           "type": "address"
         },
         {
-          "indexed": true,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
           "indexed": false,
           "internalType": "bytes32",
-          "name": "txid",
+          "name": "txHash",
           "type": "bytes32"
         },
         {
@@ -60,6 +54,12 @@
           "internalType": "uint32",
           "name": "txout",
           "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
         },
         {
           "indexed": false,
@@ -83,7 +83,7 @@
         {
           "indexed": false,
           "internalType": "bytes32",
-          "name": "txid",
+          "name": "txHash",
           "type": "bytes32"
         },
         {
@@ -207,7 +207,7 @@
       "inputs": [
         {
           "internalType": "bytes32",
-          "name": "txid",
+          "name": "txHash",
           "type": "bytes32"
         },
         {
@@ -224,16 +224,15 @@
           "internalType": "uint256",
           "name": "amount",
           "type": "uint256"
-        }
-      ],
-      "name": "deposit",
-      "outputs": [
+        },
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "tax",
           "type": "uint256"
         }
       ],
+      "name": "deposit",
+      "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
@@ -241,7 +240,7 @@
       "inputs": [
         {
           "internalType": "bytes32",
-          "name": "txid",
+          "name": "txHash",
           "type": "bytes32"
         },
         {
@@ -270,7 +269,7 @@
         },
         {
           "internalType": "bytes32",
-          "name": "txid",
+          "name": "txHash",
           "type": "bytes32"
         },
         {
@@ -280,7 +279,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "paid",
+          "name": "received",
           "type": "uint256"
         }
       ],

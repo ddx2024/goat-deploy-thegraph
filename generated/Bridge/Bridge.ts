@@ -46,6 +46,24 @@ export class Canceling__Params {
   }
 }
 
+export class ConfirmationNumberUpdated extends ethereum.Event {
+  get params(): ConfirmationNumberUpdated__Params {
+    return new ConfirmationNumberUpdated__Params(this);
+  }
+}
+
+export class ConfirmationNumberUpdated__Params {
+  _event: ConfirmationNumberUpdated;
+
+  constructor(event: ConfirmationNumberUpdated) {
+    this._event = event;
+  }
+
+  get param0(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+}
+
 export class Deposit extends ethereum.Event {
   get params(): Deposit__Params {
     return new Deposit__Params(this);
@@ -63,15 +81,15 @@ export class Deposit__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get amount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get txid(): Bytes {
-    return this._event.parameters[2].value.toBytes();
+  get txHash(): Bytes {
+    return this._event.parameters[1].value.toBytes();
   }
 
   get txout(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get amount(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
@@ -99,6 +117,24 @@ export class DepositTaxUpdated__Params {
 
   get max(): BigInt {
     return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class MinDepositUpdated extends ethereum.Event {
+  get params(): MinDepositUpdated__Params {
+    return new MinDepositUpdated__Params(this);
+  }
+}
+
+export class MinDepositUpdated__Params {
+  _event: MinDepositUpdated;
+
+  constructor(event: MinDepositUpdated) {
+    this._event = event;
+  }
+
+  get param0(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 }
 
@@ -159,7 +195,7 @@ export class Paid__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get txid(): Bytes {
+  get txHash(): Bytes {
     return this._event.parameters[1].value.toBytes();
   }
 
@@ -191,24 +227,6 @@ export class RBF__Params {
 
   get maxTxPrice(): i32 {
     return this._event.parameters[1].value.toI32();
-  }
-}
-
-export class RateLimitUpdated extends ethereum.Event {
-  get params(): RateLimitUpdated__Params {
-    return new RateLimitUpdated__Params(this);
-  }
-}
-
-export class RateLimitUpdated__Params {
-  _event: RateLimitUpdated;
-
-  constructor(event: RateLimitUpdated) {
-    this._event = event;
-  }
-
-  get param0(): i32 {
-    return this._event.parameters[0].value.toI32();
   }
 }
 
@@ -290,19 +308,19 @@ export class WithdrawalTaxUpdated__Params {
   }
 }
 
-export class Bridge__paramResult {
-  value0: i32;
+export class Bridge__depositParamResult {
+  value0: Bytes;
   value1: BigInt;
   value2: i32;
   value3: BigInt;
-  value4: BigInt;
+  value4: i32;
 
   constructor(
-    value0: i32,
+    value0: Bytes,
     value1: BigInt,
     value2: i32,
     value3: BigInt,
-    value4: BigInt,
+    value4: i32,
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -313,38 +331,73 @@ export class Bridge__paramResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set(
-      "value0",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0)),
-    );
+    map.set("value0", ethereum.Value.fromFixedBytes(this.value0));
     map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
     map.set(
       "value2",
       ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2)),
     );
     map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
-    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set(
+      "value4",
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value4)),
+    );
     return map;
   }
 
-  getDepositTaxBP(): i32 {
+  getPrefix(): Bytes {
     return this.value0;
   }
 
-  getMaxDepositTax(): BigInt {
+  getMin(): BigInt {
     return this.value1;
   }
 
-  getWithdrawalTaxBP(): i32 {
+  getTaxRate(): i32 {
     return this.value2;
   }
 
-  getMaxWithdrawalTax(): BigInt {
+  getMaxTax(): BigInt {
     return this.value3;
   }
 
-  getMinWithdrawal(): BigInt {
+  getConfirmations(): i32 {
     return this.value4;
+  }
+}
+
+export class Bridge__withdrawParamResult {
+  value0: BigInt;
+  value1: i32;
+  value2: BigInt;
+
+  constructor(value0: BigInt, value1: i32, value2: BigInt) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set(
+      "value1",
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)),
+    );
+    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
+    return map;
+  }
+
+  getMin(): BigInt {
+    return this.value0;
+  }
+
+  getTaxRate(): i32 {
+    return this.value1;
+  }
+
+  getMaxTax(): BigInt {
+    return this.value2;
   }
 }
 
@@ -419,6 +472,36 @@ export class Bridge extends ethereum.SmartContract {
     return new Bridge("Bridge", address);
   }
 
+  BASE_TX_SIZE(): BigInt {
+    let result = super.call("BASE_TX_SIZE", "BASE_TX_SIZE():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_BASE_TX_SIZE(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("BASE_TX_SIZE", "BASE_TX_SIZE():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  DUST(): BigInt {
+    let result = super.call("DUST", "DUST():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_DUST(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("DUST", "DUST():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   REQUEST_PER_BLOCK(): BigInt {
     let result = super.call(
       "REQUEST_PER_BLOCK",
@@ -442,36 +525,36 @@ export class Bridge extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  deposit(txid: Bytes, txout: BigInt, target: Address, amount: BigInt): BigInt {
+  SATOSHI(): BigInt {
+    let result = super.call("SATOSHI", "SATOSHI():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_SATOSHI(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("SATOSHI", "SATOSHI():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  WITHDRAWAL_UPDATED_DURATION(): BigInt {
     let result = super.call(
-      "deposit",
-      "deposit(bytes32,uint32,address,uint256):(uint256)",
-      [
-        ethereum.Value.fromFixedBytes(txid),
-        ethereum.Value.fromUnsignedBigInt(txout),
-        ethereum.Value.fromAddress(target),
-        ethereum.Value.fromUnsignedBigInt(amount),
-      ],
+      "WITHDRAWAL_UPDATED_DURATION",
+      "WITHDRAWAL_UPDATED_DURATION():(uint256)",
+      [],
     );
 
     return result[0].toBigInt();
   }
 
-  try_deposit(
-    txid: Bytes,
-    txout: BigInt,
-    target: Address,
-    amount: BigInt,
-  ): ethereum.CallResult<BigInt> {
+  try_WITHDRAWAL_UPDATED_DURATION(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "deposit",
-      "deposit(bytes32,uint32,address,uint256):(uint256)",
-      [
-        ethereum.Value.fromFixedBytes(txid),
-        ethereum.Value.fromUnsignedBigInt(txout),
-        ethereum.Value.fromAddress(target),
-        ethereum.Value.fromUnsignedBigInt(amount),
-      ],
+      "WITHDRAWAL_UPDATED_DURATION",
+      "WITHDRAWAL_UPDATED_DURATION():(uint256)",
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -480,12 +563,49 @@ export class Bridge extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  isDeposited(txid: Bytes, txout: BigInt): boolean {
+  depositParam(): Bridge__depositParamResult {
+    let result = super.call(
+      "depositParam",
+      "depositParam():(bytes4,uint64,uint16,uint64,uint16)",
+      [],
+    );
+
+    return new Bridge__depositParamResult(
+      result[0].toBytes(),
+      result[1].toBigInt(),
+      result[2].toI32(),
+      result[3].toBigInt(),
+      result[4].toI32(),
+    );
+  }
+
+  try_depositParam(): ethereum.CallResult<Bridge__depositParamResult> {
+    let result = super.tryCall(
+      "depositParam",
+      "depositParam():(bytes4,uint64,uint16,uint64,uint16)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new Bridge__depositParamResult(
+        value[0].toBytes(),
+        value[1].toBigInt(),
+        value[2].toI32(),
+        value[3].toBigInt(),
+        value[4].toI32(),
+      ),
+    );
+  }
+
+  isDeposited(txHash: Bytes, txout: BigInt): boolean {
     let result = super.call(
       "isDeposited",
       "isDeposited(bytes32,uint32):(bool)",
       [
-        ethereum.Value.fromFixedBytes(txid),
+        ethereum.Value.fromFixedBytes(txHash),
         ethereum.Value.fromUnsignedBigInt(txout),
       ],
     );
@@ -493,12 +613,12 @@ export class Bridge extends ethereum.SmartContract {
     return result[0].toBoolean();
   }
 
-  try_isDeposited(txid: Bytes, txout: BigInt): ethereum.CallResult<boolean> {
+  try_isDeposited(txHash: Bytes, txout: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall(
       "isDeposited",
       "isDeposited(bytes32,uint32):(bool)",
       [
-        ethereum.Value.fromFixedBytes(txid),
+        ethereum.Value.fromFixedBytes(txHash),
         ethereum.Value.fromUnsignedBigInt(txout),
       ],
     );
@@ -524,43 +644,6 @@ export class Bridge extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  param(): Bridge__paramResult {
-    let result = super.call(
-      "param",
-      "param():(uint16,uint64,uint16,uint64,uint64)",
-      [],
-    );
-
-    return new Bridge__paramResult(
-      result[0].toI32(),
-      result[1].toBigInt(),
-      result[2].toI32(),
-      result[3].toBigInt(),
-      result[4].toBigInt(),
-    );
-  }
-
-  try_param(): ethereum.CallResult<Bridge__paramResult> {
-    let result = super.tryCall(
-      "param",
-      "param():(uint16,uint64,uint16,uint64,uint64)",
-      [],
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new Bridge__paramResult(
-        value[0].toI32(),
-        value[1].toBigInt(),
-        value[2].toI32(),
-        value[3].toBigInt(),
-        value[4].toBigInt(),
-      ),
-    );
-  }
-
   supportsInterface(id: Bytes): boolean {
     let result = super.call(
       "supportsInterface",
@@ -582,6 +665,39 @@ export class Bridge extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  withdrawParam(): Bridge__withdrawParamResult {
+    let result = super.call(
+      "withdrawParam",
+      "withdrawParam():(uint64,uint16,uint64)",
+      [],
+    );
+
+    return new Bridge__withdrawParamResult(
+      result[0].toBigInt(),
+      result[1].toI32(),
+      result[2].toBigInt(),
+    );
+  }
+
+  try_withdrawParam(): ethereum.CallResult<Bridge__withdrawParamResult> {
+    let result = super.tryCall(
+      "withdrawParam",
+      "withdrawParam():(uint64,uint16,uint64)",
+      [],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new Bridge__withdrawParamResult(
+        value[0].toBigInt(),
+        value[1].toI32(),
+        value[2].toBigInt(),
+      ),
+    );
   }
 
   withdrawals(param0: BigInt): Bridge__withdrawalsResult {
@@ -645,6 +761,10 @@ export class ConstructorCall__Inputs {
 
   get owner(): Address {
     return this._call.inputValues[0].value.toAddress();
+  }
+
+  get prefix(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
   }
 }
 
@@ -733,7 +853,7 @@ export class DepositCall__Inputs {
     this._call = call;
   }
 
-  get txid(): Bytes {
+  get txHash(): Bytes {
     return this._call.inputValues[0].value.toBytes();
   }
 
@@ -748,6 +868,10 @@ export class DepositCall__Inputs {
   get amount(): BigInt {
     return this._call.inputValues[3].value.toBigInt();
   }
+
+  get tax(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
+  }
 }
 
 export class DepositCall__Outputs {
@@ -755,10 +879,6 @@ export class DepositCall__Outputs {
 
   constructor(call: DepositCall) {
     this._call = call;
-  }
-
-  get tax(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
   }
 }
 
@@ -783,7 +903,7 @@ export class PaidCall__Inputs {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get txid(): Bytes {
+  get txHash(): Bytes {
     return this._call.inputValues[1].value.toBytes();
   }
 
@@ -894,6 +1014,36 @@ export class ReplaceByFeeCall__Outputs {
   }
 }
 
+export class SetConfirmationNumberCall extends ethereum.Call {
+  get inputs(): SetConfirmationNumberCall__Inputs {
+    return new SetConfirmationNumberCall__Inputs(this);
+  }
+
+  get outputs(): SetConfirmationNumberCall__Outputs {
+    return new SetConfirmationNumberCall__Outputs(this);
+  }
+}
+
+export class SetConfirmationNumberCall__Inputs {
+  _call: SetConfirmationNumberCall;
+
+  constructor(call: SetConfirmationNumberCall) {
+    this._call = call;
+  }
+
+  get number(): i32 {
+    return this._call.inputValues[0].value.toI32();
+  }
+}
+
+export class SetConfirmationNumberCall__Outputs {
+  _call: SetConfirmationNumberCall;
+
+  constructor(call: SetConfirmationNumberCall) {
+    this._call = call;
+  }
+}
+
 export class SetDepositTaxCall extends ethereum.Call {
   get inputs(): SetDepositTaxCall__Inputs {
     return new SetDepositTaxCall__Inputs(this);
@@ -924,6 +1074,36 @@ export class SetDepositTaxCall__Outputs {
   _call: SetDepositTaxCall;
 
   constructor(call: SetDepositTaxCall) {
+    this._call = call;
+  }
+}
+
+export class SetMinDepositCall extends ethereum.Call {
+  get inputs(): SetMinDepositCall__Inputs {
+    return new SetMinDepositCall__Inputs(this);
+  }
+
+  get outputs(): SetMinDepositCall__Outputs {
+    return new SetMinDepositCall__Outputs(this);
+  }
+}
+
+export class SetMinDepositCall__Inputs {
+  _call: SetMinDepositCall;
+
+  constructor(call: SetMinDepositCall) {
+    this._call = call;
+  }
+
+  get amount(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetMinDepositCall__Outputs {
+  _call: SetMinDepositCall;
+
+  constructor(call: SetMinDepositCall) {
     this._call = call;
   }
 }

@@ -21,7 +21,7 @@ dataSources:
         - name: Bridge
           file: Bridge/Bridge.json
       eventHandlers:
-        - event: Deposit(indexed address,indexed uint256,bytes32,uint32,uint256)
+        - event: Deposit(indexed address,bytes32,uint32,uint256,uint256)
           handler: handleDeposit
         - event: Withdraw(indexed uint256,indexed address,uint256,uint256,uint16,string)
           handler: handleWithdrawal
@@ -66,7 +66,7 @@ dataSources:
           handler: handleUpdateTokenLimit
         - event: Grant(uint256)
           handler: handleGrant
-        - event: OpenCliam()
+        - event: OpenClaim()
           handler: handleOpenCliam
         - event: Create(address,address,bytes32[2])
           handler: handleCreate

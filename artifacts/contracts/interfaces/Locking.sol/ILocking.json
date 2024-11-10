@@ -4,6 +4,203 @@
   "sourceName": "contracts/interfaces/Locking.sol",
   "abi": [
     {
+      "inputs": [],
+      "name": "Approved",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "min",
+          "type": "uint256"
+        }
+      ],
+      "name": "BelowThreshold",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ClaimNotOpen",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ClaimOpened",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "",
+          "type": "uint64"
+        }
+      ],
+      "name": "ConsensusReentrantCall",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "validator",
+          "type": "address"
+        }
+      ],
+      "name": "DuplicateValidator",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "expect",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvalidMsgValue",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "limit",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "threshold",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvalidTokenLimit",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidTokenListSize",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidTokenWeight",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidZeroAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidZeroAmount",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "limit",
+          "type": "uint256"
+        }
+      ],
+      "name": "LockAmountExceed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LockingNotStarted",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NoChanges",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NoUnclaimed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotConsensusLayer",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotStandardLockingToken",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "expected",
+          "type": "address"
+        }
+      ],
+      "name": "NotValidatorOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "SignatureMismatch",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "TokenExists",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "TokenNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "validator",
+          "type": "address"
+        }
+      ],
+      "name": "UnapprovedValidator",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "validator",
+          "type": "address"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -157,7 +354,7 @@
     {
       "anonymous": false,
       "inputs": [],
-      "name": "OpenCliam",
+      "name": "OpenClaim",
       "type": "event"
     },
     {
@@ -278,6 +475,37 @@
         }
       ],
       "name": "addToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "validator",
+          "type": "address"
+        }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "validator",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "changeValidatorOwner",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -474,6 +702,20 @@
       "name": "lock",
       "outputs": [],
       "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "openClaim",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reclaim",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
