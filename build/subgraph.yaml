@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Bridge
-    network: localhost
+    network: mainnet
     source:
       address: "0xbc10000000000000000000000000000000000003"
       abi: Bridge
@@ -38,7 +38,7 @@ dataSources:
       file: Bridge/Bridge.wasm
   - kind: ethereum/contract
     name: Locking
-    network: localhost
+    network: mainnet
     source:
       address: "0xB07020784D788Bdd7168373b545037D40377FDD7"
       abi: Locking
