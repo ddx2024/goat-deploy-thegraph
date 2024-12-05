@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create-local": "graph create --node http://goat-regtest-graph-node:8020/ Bridge",
-    "deploy-local": "graph deploy --node http://goat-regtest-graph-node:8020/ --ipfs http://goat-regtest-graph-ipfs:5001 Bridge --version-label v0.0.1",
-    "remove-local": "graph remove --node http://goat-regtest-graph-node:8020/ Bridge"
+    "create-local": "graph create --node http://graph-node:8020/ Bridge",
+    "deploy-local": "graph deploy --node http://graph-node:8020/ --ipfs http://graph-ipfs:5001 Bridge --version-label v0.0.1",
+    "remove-local": "graph remove --node http://graph-node:8020/ Bridge"
   },
   "author": "",
   "license": "ISC",
